@@ -1,5 +1,5 @@
 # Monoalphabetic-and-Vigenere-Cipher
-Encrypt and break monoalphabetic and vigenère cipher using n-gram analysis
+Encrypt and break monoalphabetic and vigenère cipher using n-gram analysis.
 
 ## [Monoalphabetic cipher](https://en.wikipedia.org/wiki/Substitution_cipher#Simple_substitution)
 
@@ -61,3 +61,6 @@ The breaker uses bigram analysis and needs the correct key length. The [Kasiski 
 ```python
 $ python3 ./src/vig/break_vig.py -k 7 ./examples/vig.ciphertext -o ./examples/vig.key2
 ```
+
+## Thanks
+Special thanks to the Python genius @TrueKuehli
