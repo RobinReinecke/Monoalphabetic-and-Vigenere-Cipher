@@ -184,46 +184,58 @@ class MonoBreaker:
         return sorted(frequency_map, key=frequency_map.__getitem__, reverse=True)
 
 
-# Parse arguments
-PARSER = argparse.ArgumentParser()
-PARSER.add_argument('file', metavar='FILE',
-                    help='The input file.')
-FILE = vars(PARSER.parse_args())['file']
+if __name__ == '__main__':
+    # Parse arguments
+    PARSER = argparse.ArgumentParser()
+    PARSER.add_argument('file', metavar='FILE',
+                        help='The input file.')
+    PARSER.add_argument('--out', '-o',
+                        help='The output file.')
 
-BREAKER = MonoBreaker.from_data_files(MONOGRAM_FILE, N_GRAM_FILE)
-print(BREAKER.break_mono_multi(read_ascii_from_file(FILE), THREADS))
+    ARGS = vars(PARSER.parse_args())
 
-# BENCHMARK CORRECTNESS
-# tests_correct = 0
-# for test_iteration in range(100):
-#   print(str(test_iteration) + ', ', end='')
-#   # test_key = BREAKER.break_mono(read_ascii_from_file(FILE))
-#   test_key = BREAKER.break_mono_multi(read_ascii_from_file(FILE), THREADS)
-#   if test_key == 'rehmtfzgoxsqwpclbanjdykuiv':
-#     tests_correct += 1
-#     print('SUCCESS: ' + test_key)
-#   else:
-#     print(' FAILED: ' + test_key)
+    BREAKER = MonoBreaker.from_data_files(MONOGRAM_FILE, N_GRAM_FILE)
+    TEXT = BREAKER.break_mono_multi(
+        read_ascii_from_file(ARGS['file']), THREADS)
 
-# print()
-# print(str(tests_correct) + '/100')
+    if ARGS['out']:
+        FILE = open(ARGS['out'], 'w')
+        FILE.write(TEXT)
+        FILE.close()
+    else:
+        print(TEXT)
 
-# BENCHMARK AMOUNT OF ITERATIONS NEEDED
-# iteration_amounts = []
-# iteration_amounts_success = []
-# for test_iteration in range(100):
-#   iteration_amount = 0
-#   print(str(test_iteration) + ', ', end='')
+    # BENCHMARK CORRECTNESS
+    # tests_correct = 0
+    # for test_iteration in range(100):
+    #   print(str(test_iteration) + ', ', end='')
+    #   # test_key = BREAKER.break_mono(read_ascii_from_file(FILE))
+    #   test_key = BREAKER.break_mono_multi(read_ascii_from_file(FILE), THREADS)
+    #   if test_key == 'rehmtfzgoxsqwpclbanjdykuiv':
+    #     tests_correct += 1
+    #     print('SUCCESS: ' + test_key)
+    #   else:
+    #     print(' FAILED: ' + test_key)
 
-#   test_key = BREAKER.break_mono(read_ascii_from_file(FILE))
-#   if test_key == 'rehmtfzgoxsqwpclbanjdykuiv':
-#     iteration_amounts_success.append(iteration_amount)
-#     print('SUCCESS: ' + str(iteration_amount))
-#   else:
-#     print(' FAILED: ' + str(iteration_amount))
-#   iteration_amounts.append(iteration_amount)
+    # print()
+    # print(str(tests_correct) + '/100')
 
-# print('Maximum Iterations: ' + str(max(iteration_amounts)))
-# print('Average Iterations: ' + str(mean(iteration_amounts)))
-# print('Maximum Iterations (Successfull): ' + str(max(iteration_amounts_success)))
-# print('Average Iterations (Successfull): ' + str(mean(iteration_amounts_success)))
+    # BENCHMARK AMOUNT OF ITERATIONS NEEDED
+    # iteration_amounts = []
+    # iteration_amounts_success = []
+    # for test_iteration in range(100):
+    #   iteration_amount = 0
+    #   print(str(test_iteration) + ', ', end='')
+
+    #   test_key = BREAKER.break_mono(read_ascii_from_file(FILE))
+    #   if test_key == 'rehmtfzgoxsqwpclbanjdykuiv':
+    #     iteration_amounts_success.append(iteration_amount)
+    #     print('SUCCESS: ' + str(iteration_amount))
+    #   else:
+    #     print(' FAILED: ' + str(iteration_amount))
+    #   iteration_amounts.append(iteration_amount)
+
+    # print('Maximum Iterations: ' + str(max(iteration_amounts)))
+    # print('Average Iterations: ' + str(mean(iteration_amounts)))
+    # print('Maximum Iterations (Successfull): ' + str(max(iteration_amounts_success)))
+    # print('Average Iterations (Successfull): ' + str(mean(iteration_amounts_success)))
